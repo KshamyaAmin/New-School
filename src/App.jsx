@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 /* Login */
 import Login from "./pages/Login";
@@ -32,6 +32,8 @@ function App() {
         <Route path="/" element={<Login />} />
 
         {/* ================= ADMIN ROUTES ================= */}
+
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
 
         <Route
           path="/admin/dashboard"
@@ -74,6 +76,8 @@ function App() {
         />
 
         {/* ================= TEACHER ROUTES ================= */}
+
+        <Route path="/teacher" element={<Navigate to="/teacher/dashboard" replace />} />
 
         <Route
           path="/teacher/dashboard"
