@@ -59,7 +59,11 @@ function Login() {
         navigate("/teacher/dashboard");
       }
     } catch (err) {
-      setErrors({ username: "Invalid credentials" });
+      if (err.response) {
+        setErrors({ username: "Invalid credentials" });
+      } else {
+        setErrors({ username: "Server is unreachable. Is the backend running?" });
+      }
     }
   };
 
