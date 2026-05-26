@@ -1,23 +1,23 @@
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
+import api from "../../api";
 
 function Attendance() {
+  const [students, setStudents] = useState([]);
 
-  const students = [
-
-    {
-      id: 1,
-      name: "Rahul Sharma",
-      status: "Present"
-    },
-
-    {
-      id: 2,
-      name: "Priya Shetty",
-      status: "Absent"
-    }
-
-  ];
+  useEffect(() => {
+    api.get("/data/students")
+      .then((response) => {
+        setStudents(
+          response.data.map((student) => ({
+            ...student,
+            status: "Present"
+          }))
+        );
+      })
+      .catch((error) => console.error("Error fetching attendance data", error));
+  }, []);
 
   return (
 

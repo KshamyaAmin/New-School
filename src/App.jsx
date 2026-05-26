@@ -4,6 +4,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
+/* Protected routing */
+import ProtectedRoute from "./components/ProtectedRoute";
+
 /* Admin Pages */
 import AdminDashboard from "./pages/admin/Dashboard";
 import Students from "./pages/admin/Students";
@@ -34,79 +37,28 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ================= ADMIN ROUTES ================= */}
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/students" element={<Students />} />
+          <Route path="/admin/add-student" element={<AddStudent />} />
+          <Route path="/admin/teachers" element={<Teachers />} />
+          <Route path="/admin/add-teacher" element={<AddTeacher />} />
+          <Route path="/admin/reports" element={<Reports />} />
+          <Route path="/admin/notices" element={<AdminNotices />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
+        </Route>
 
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
+          <Route path="/teacher" element={<Navigate to="/teacher/dashboard" replace />} />
+          <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+          <Route path="/teacher/attendance" element={<TeacherAttendance />} />
+          <Route path="/teacher/marks" element={<TeacherMarks />} />
+          <Route path="/teacher/performance" element={<Performance />} />
+          <Route path="/teacher/settings" element={<TeacherSettings />} />
+        </Route>
 
-        <Route
-          path="/admin/dashboard"
-          element={<AdminDashboard />}
-        />
-
-        <Route
-          path="/admin/students"
-          element={<Students />}
-        />
-
-        <Route
-          path="/admin/add-student"
-          element={<AddStudent />}
-        />
-
-        <Route
-          path="/admin/teachers"
-          element={<Teachers />}
-        />
-
-        <Route
-          path="/admin/add-teacher"
-          element={<AddTeacher />}
-        />
-
-        <Route
-          path="/admin/reports"
-          element={<Reports />}
-        />
-
-        <Route
-          path="/admin/notices"
-          element={<AdminNotices />}
-        />
-
-        <Route
-          path="/admin/settings"
-          element={<AdminSettings />}
-        />
-
-        {/* ================= TEACHER ROUTES ================= */}
-
-        <Route path="/teacher" element={<Navigate to="/teacher/dashboard" replace />} />
-
-        <Route
-          path="/teacher/dashboard"
-          element={<TeacherDashboard />}
-        />
-
-        <Route
-          path="/teacher/attendance"
-          element={<TeacherAttendance />}
-        />
-
-        <Route
-          path="/teacher/marks"
-          element={<TeacherMarks />}
-        />
-
-        <Route
-          path="/teacher/performance"
-          element={<Performance />}
-        />
-
-        <Route
-          path="/teacher/settings"
-          element={<TeacherSettings />}
-        />
-
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
 
     </BrowserRouter>

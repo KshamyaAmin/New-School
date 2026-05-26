@@ -1,19 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Sidebar() {
 
   const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
 
-  // Get role from localStorage
-  const role = localStorage.getItem("role");
+  const role = user?.role;
 
   // Logout
   const handleLogout = () => {
-
-    localStorage.clear();
-
-    navigate("/");
-
+    logout();
+    navigate("/login");
   };
 
   return (

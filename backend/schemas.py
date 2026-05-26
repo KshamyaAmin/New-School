@@ -19,3 +19,20 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: str | None = None
+
+class StudentBase(BaseModel):
+    name: str
+    student_class: str
+    teacher_email: EmailStr
+
+class StudentResponse(StudentBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+class DashboardResponse(BaseModel):
+    total_students: int
+    total_teachers: int | None = None
+    attendance: str | None = None
+    assigned_students: int | None = None

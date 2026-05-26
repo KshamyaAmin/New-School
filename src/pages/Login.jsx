@@ -1,15 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 function Login() {
 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
-
-  // Role State
-  const [role, setRole] = useState("teacher");
 
   // Form State
   const [username, setUsername] = useState("");
@@ -47,15 +43,12 @@ function Login() {
     }
 
     try {
-      await login(username, password);
-      // Save Role (for UI purposes)
-      localStorage.setItem("role", role);
+      const user = await login(username, password);
+      localStorage.setItem("role", user.role);
 
-      // Navigate Based On Role
-      if (role === "admin") {
+      if (user.role === "admin") {
         navigate("/admin/dashboard");
-      }
-      else {
+      } else {
         navigate("/teacher/dashboard");
       }
     } catch (err) {
@@ -82,38 +75,6 @@ function Login() {
           Login to continue
         </p>
 
-        {/* Role Switch */}
-        <div className="flex bg-slate-100 rounded-xl p-1 mb-6">
-
-          {/* Teacher */}
-          <button
-            onClick={() => setRole("teacher")}
-            className={`flex-1 py-3 rounded-xl font-medium transition-all
-              ${
-                role === "teacher"
-                  ? "bg-blue-600 text-white"
-                  : "text-slate-600"
-              }
-            `}
-          >
-            Teacher
-          </button>
-
-          {/* Admin */}
-          <button
-            onClick={() => setRole("admin")}
-            className={`flex-1 py-3 rounded-xl font-medium transition-all
-              ${
-                role === "admin"
-                  ? "bg-blue-600 text-white"
-                  : "text-slate-600"
-              }
-            `}
-          >
-            Admin
-          </button>
-
-        </div>
 
         {/* Username */}
         <div className="mb-4">
@@ -124,7 +85,7 @@ function Login() {
 
           <input
             type="text"
-            placeholder={`Enter ${role} username`}
+            placeholder="Enter email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="input-field"
@@ -183,7 +144,7 @@ function Login() {
           onClick={handleLogin}
           className="btn-primary w-full"
         >
-          Login as {role}
+          Login
         </button>
 
       </div>

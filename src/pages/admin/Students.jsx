@@ -1,20 +1,16 @@
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
+import api from "../../api";
 
 function Students() {
+  const [students, setStudents] = useState([]);
 
-  const students = [
-    {
-      id: 1,
-      name: "Rahul Sharma",
-      class: "5-A"
-    },
-    {
-      id: 2,
-      name: "Priya Shetty",
-      class: "4-B"
-    }
-  ];
+  useEffect(() => {
+    api.get("/data/students")
+      .then((response) => setStudents(response.data))
+      .catch((error) => console.error("Error fetching students", error));
+  }, []);
 
   return (
 
@@ -54,7 +50,7 @@ function Students() {
                     </td>
 
                     <td className="py-4">
-                      {student.class}
+                      {student.student_class}
                     </td>
 
                   </tr>

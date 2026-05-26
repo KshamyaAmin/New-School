@@ -30,9 +30,8 @@ function Register() {
     }
 
     try {
-      await register(username, password);
-      // For simplicity, set role to teacher upon register
-      localStorage.setItem("role", "teacher");
+      const user = await register(username, password);
+      localStorage.setItem("role", user.role);
       navigate("/teacher/dashboard");
     } catch (err) {
       setErrors({ username: "Registration failed or email already exists" });

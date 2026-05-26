@@ -40,11 +40,12 @@ export const AuthProvider = ({ children }) => {
     // Fetch user details
     const userResponse = await api.get('/auth/me');
     setUser(userResponse.data);
+    return userResponse.data;
   };
 
   const register = async (email, password) => {
     await api.post('/auth/register', { email, password });
-    await login(email, password);
+    return await login(email, password);
   };
 
   const logout = () => {

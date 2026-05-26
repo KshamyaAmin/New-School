@@ -1,7 +1,16 @@
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
+import api from "../../api";
 
 function Dashboard() {
+  const [dashboard, setDashboard] = useState(null);
+
+  useEffect(() => {
+    api.get("/data/dashboard")
+      .then((response) => setDashboard(response.data))
+      .catch((error) => console.error("Error fetching dashboard data", error));
+  }, []);
 
   return (
 
@@ -21,7 +30,7 @@ function Dashboard() {
             </h2>
 
             <p className="text-4xl text-blue-600 mt-4">
-              1250
+              {dashboard ? dashboard.total_students : "..."}
             </p>
           </div>
 
@@ -31,7 +40,7 @@ function Dashboard() {
             </h2>
 
             <p className="text-4xl text-blue-600 mt-4">
-              85
+              {dashboard ? dashboard.total_teachers : "..."}
             </p>
           </div>
 
@@ -41,7 +50,7 @@ function Dashboard() {
             </h2>
 
             <p className="text-4xl text-blue-600 mt-4">
-              92%
+              {dashboard ? dashboard.attendance : "..."}
             </p>
           </div>
 
