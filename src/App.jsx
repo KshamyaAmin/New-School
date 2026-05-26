@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-/* Login */
+/* Login and Register */
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 /* Admin Pages */
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -28,8 +29,10 @@ function App() {
 
       <Routes>
 
-        {/* Login */}
+        {/* Login & Register */}
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* ================= ADMIN ROUTES ================= */}
 

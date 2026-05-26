@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Login() {
 
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   // Role State
   const [role, setRole] = useState("teacher");
@@ -19,7 +22,7 @@ function Login() {
   const [errors, setErrors] = useState({});
 
   // Login Function
-  const handleLogin = () => {
+  const handleLogin = async () => {
 
     let newErrors = {};
 
@@ -43,17 +46,21 @@ function Login() {
       return;
     }
 
-    // Save Role
-    localStorage.setItem("role", role);
+    try {
+      await login(username, password);
+      // Save Role (for UI purposes)
+      localStorage.setItem("role", role);
 
-    // Navigate Based On Role
-    if (role === "admin") {
-      navigate("/admin/dashboard");
+      // Navigate Based On Role
+      if (role === "admin") {
+        navigate("/admin/dashboard");
+      }
+      else {
+        navigate("/teacher/dashboard");
+      }
+    } catch (err) {
+      setErrors({ username: "Invalid credentials" });
     }
-    else {
-      navigate("/teacher/dashboard");
-    }
-
   };
 
   return (
